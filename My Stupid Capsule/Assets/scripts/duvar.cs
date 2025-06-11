@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
     public GameObject gameplayUI;
     public TextMeshProUGUI levelText;
 
+    public Scorecoin scorecoin;  // Inspector'dan Scorecoin scriptini buraya baðlayýn
+
     public static bool isPaused = false;
 
     void Start()
@@ -26,12 +28,11 @@ public class GameController : MonoBehaviour
         if (currentSceneIndex == 0)
         {
             int savedLevelIndex = PlayerPrefs.GetInt("SavedLevel", 1);
-            UpdateLevelText(savedLevelIndex); // düzeltildi
+            UpdateLevelText(savedLevelIndex);
             return;
         }
 
-        // Sahne 1'den itibaren level sayýlacak
-        UpdateLevelText(currentSceneIndex); // düzeltildi
+        UpdateLevelText(currentSceneIndex);
     }
 
     void UpdateLevelText(int level)
@@ -67,6 +68,16 @@ public class GameController : MonoBehaviour
 
     public void Win()
     {
+        // Oyun kazanýldýðýnda coinleri kaydet
+        if (scorecoin != null)
+        {
+            scorecoin.SaveTotalCoins();
+        }
+        else
+        {
+            Debug.LogWarning("Scorecoin referansý atanmadý!");
+        }
+
         winPanel.SetActive(true);
         gameplayUI.SetActive(false);
         Time.timeScale = 0f;

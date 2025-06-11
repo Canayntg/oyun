@@ -4,19 +4,19 @@ using System.Collections;
 
 public class Oyuniçi : MonoBehaviour
 {
+    public Scorecoin scorecoin; // Inspector'dan bağla
+
     void Start()
     {
-        // Eğer ana menüde değilsek, kaydedilen seviyeye gitmeye çalış
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             StartCoroutine(LoadSavedLevel());
         }
     }
 
-    // Kaydedilen leveli yükler
     IEnumerator LoadSavedLevel()
     {
-        int savedLevel = PlayerPrefs.GetInt("SavedLevel", 1); // varsayılan seviye 1
+        int savedLevel = PlayerPrefs.GetInt("SavedLevel", 1);
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
         if (currentSceneIndex != savedLevel)
@@ -29,31 +29,41 @@ public class Oyuniçi : MonoBehaviour
         }
     }
 
-    // Oyunu sıfırlar ve ilk seviyeyi yükler
     public void OyunuSifirla()
     {
         PlayerPrefs.DeleteKey("SavedLevel");
+
+        // Coinleri sıfırla
+        PlayerPrefs.DeleteKey("CoinCount");
+        PlayerPrefs.Save();
+
+        // Oyun içi session coinleri sıfırla
+        if (scorecoin != null)
+        {
+            scorecoin.ResetSessionScore();
+        }
+
         ResetTime();
-        StartCoroutine(LoadSceneAsync(1)); // İlk seviye
+        StartCoroutine(LoadSceneAsync(1));
     }
 
-    // Oyunu yeniden başlatır
     public void OyunuYenidenBaslat()
     {
         ResetTime();
         StartCoroutine(LoadSceneAsync(SceneManager.GetActiveScene().buildIndex));
     }
 
-    // Ana menüye döner
     public void Menu()
     {
+        SaveCoinsBeforeSceneChange();
         ResetTime();
-        StartCoroutine(LoadSceneAsync(0)); // Ana menü sahnesi
+        StartCoroutine(LoadSceneAsync(0));
     }
 
-    // Bir sonraki seviyeye geçer ve kaydeder
     public void NextLevel()
     {
+        SaveCoinsBeforeSceneChange();
+
         int nextLevel = SceneManager.GetActiveScene().buildIndex + 1;
 
         if (nextLevel < SceneManager.sceneCountInBuildSettings)
@@ -67,18 +77,27 @@ public class Oyuniçi : MonoBehaviour
         {
             Debug.Log("Tüm bölümler tamamlandı!");
             PlayerPrefs.DeleteKey("SavedLevel");
-            // İstersen burada son ekranı veya menüyü çağırabilirsin
-            StartCoroutine(LoadSceneAsync(0)); // Ana menüye dön
+            StartCoroutine(LoadSceneAsync(0));
         }
     }
 
-    // Zamanı sıfırlar
+    void SaveCoinsBeforeSceneChange()
+    {
+        if (scorecoin != null)
+        {
+            scorecoin.SaveTotalCoins();  // Oyun içi coinler toplam coinlere eklenip kaydediliyor
+        }
+        else
+        {
+            Debug.LogWarning("Scorecoin referansı atanmadı!");
+        }
+    }
+
     void ResetTime()
     {
         Time.timeScale = 1f;
     }
 
-    // Async sahne yükleyici
     IEnumerator LoadSceneAsync(int sceneIndex)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);

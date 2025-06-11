@@ -1732,6 +1732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27aaab0aea07141409f512b81a7ede5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scorecoin: {fileID: 1622768707}
 --- !u!4 &674716112
 Transform:
   m_ObjectHideFlags: 0
@@ -4299,6 +4300,7 @@ MonoBehaviour:
   winPanel: {fileID: 1534497834}
   gameplayUI: {fileID: 1546590569}
   levelText: {fileID: 755187818}
+  scorecoin: {fileID: 1622768707}
 --- !u!82 &1622768709
 AudioSource:
   m_ObjectHideFlags: 0

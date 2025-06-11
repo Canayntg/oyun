@@ -2003,6 +2003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27aaab0aea07141409f512b81a7ede5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scorecoin: {fileID: 1622768707}
 --- !u!4 &674716112
 Transform:
   m_ObjectHideFlags: 0
@@ -4584,6 +4585,7 @@ MonoBehaviour:
   winPanel: {fileID: 1534497834}
   gameplayUI: {fileID: 1546590569}
   levelText: {fileID: 908723926}
+  scorecoin: {fileID: 1622768707}
 --- !u!82 &1622768709
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4929,8 +4931,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1647429809}
   m_LocalRotation: {x: -0, y: 0.6931599, z: -0, w: 0.7207838}
-  m_LocalPosition: {x: 10.85, y: 5.94, z: 0.02}
-  m_LocalScale: {x: 0.22920588, y: 0.3118288, z: 0.33202142}
+  m_LocalPosition: {x: 10.798, y: 5.94, z: 0.1798}
+  m_LocalScale: {x: 0.2589797, y: 0.3118288, z: 0.43548042}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
